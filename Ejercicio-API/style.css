@@ -1,45 +1,94 @@
-/* style.css */
+* {
+  box-sizing: border-box;
+}
+:root {
+  --dark-blue: #1e293b;
+  --radio: 8px;
+  --dark-cyan: #02b1c8;
+  --cyan: #00e1ff;
+  --green: #7ffa67;
+  --white: #fcfcfc;
+  --black: #111;
+  --card-bg: #514d4d52;
+  --max-img-card: 220px;
+}
 
 body {
-  margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 400;
+  color: var(--white);
+  min-height: 100vh;
+  padding: 1.25rem;
+  text-align: center;
+  text-shadow: 0.0625rem 0.0625rem 0.0625rem var(--black);
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.8)),
+    var(--black)
+      url(https://images.pexels.com/photos/19910978/pexels-photo-19910978.jpeg?_gl=1*irmn6b*_ga*MTg0MjQ5NjYzMS4xNzgxOTM5NjQw*_ga_8JE65Q40S6*czE3ODE5Mzk2MzkkbzEkZzEkdDE3ODE5Mzk2NDQkajU1JGwwJGgw)
+      no-repeat center fixed;
+  background-size: cover;
 }
 
 main {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* centrar horizontal */
-  align-items: center; /* alinear arriba (no al centro) */
-  padding-top: 2rem; /* un poco de espacio desde el borde superior */
+  justify-content: center;
+  align-items: center;
+  padding-top: 2rem;
   width: 100%;
 }
 
 #get-data-container {
   flex-direction: column;
-  justify-content: center; /* centrar horizontal */
+  justify-content: center;
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 1.5rem;
 }
-
-#logo {
-  max-width: 250px;
-  height: auto;
+#get-data-container h1 {
+  font-family: "Schoolbell", cursive;
+  font-size: clamp(2.5rem, 5vw, 6rem);
+  line-height: 1;
+  color: var(--dark-cyan);
+  margin: 1.25rem 0 1.5625rem;
+  text-shadow:
+    0.02em 0.02em 0.02em var(--green),
+    -0.02em -0.02em 0.02em var(--green),
+    0 0 0.2em var(--green);
+}
+#get-data-container span {
+  font-size: 0.5em;
+  margin: 0 -0.5ch;
+  vertical-align: middle;
 }
 
 button {
-  padding: 0.55rem 1.2rem;
+  padding: 1rem 1.6rem;
   font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
   cursor: pointer;
-  background-color: #57c281;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  color: var(--white);
+  background: rgba(0, 0, 0, 0.25);
+
+  backdrop-filter: blur(5px);
+
+  border: 2px solid rgba(0, 225, 255, 0.25);
+  border-radius: var(--radio);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
 }
+button:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 0 12px rgba(0, 255, 157, 0.75),
+    0 0 26px rgba(67, 197, 41, 0.79);
+  background-color: var(--dark-cyan);
+}
+
 #characters-by-species {
   display: flex;
   flex-direction: column;
@@ -55,11 +104,18 @@ button {
   width: 100%;
   max-width: 1000px;
 }
+#characters-by-species > div > h2 {
+  font-family: "Schoolbell", cursive;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  color: var(--cyan);
+  margin-bottom: 1rem;
+}
+
 .cards-container {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 1rem;
-  justify-content: center;
+  justify-items: center;
 }
 
 /* Centrar las tarjetas de personajes */
@@ -73,22 +129,42 @@ button {
 }
 
 .character-card {
-  background: #57c2812e;
-  padding: 1rem;
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border-radius: var(--radio);
   text-align: center;
-  max-width: 300px;
+  max-width: 400px;
+  width: 100%;
+}
+.character-card {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.character-card:hover {
+  transform: translateY(-8px);
+
+  box-shadow:
+    0 0 10px rgba(0, 225, 255, 0.609),
+    0 10px 20px rgba(39, 109, 117, 0.4);
 }
 .character-card img {
-  max-width: 180px;
-  height: auto;
-  margin-bottom: 0.5rem;
+  width: 100%;
+  max-width: var(--max-img-card);
+  border-radius: 12px;
 }
 .character-card h3 {
-  margin: 0 0 0.5rem 0;
-  font-size: 1.25rem;
+  font-size: 1.4rem;
+  color: var(--cyan);
+  max-width: var(--max-img-card);
+  margin-bottom: 1rem;
 }
 .character-card p {
   margin: 0.25rem 0;
   font-size: 0.875rem;
+  opacity: 0.9;
 }

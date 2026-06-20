@@ -13,7 +13,13 @@ fetchButton.addEventListener('click', () => {
     }
 
     fetch(URL)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('No se pudo conectar')
+            }
+            return response.json()
+        })
+
         .then(data => {
             charactersData = data;
             renderCharacters(charactersData);
@@ -62,17 +68,19 @@ function renderCharacters(data) {
             const card = document.createElement('section');
             card.className = 'character-card';
 
-            const nameH3 = document.createElement('h3');
-            nameH3.textContent = character.name;
-            card.appendChild(nameH3);
+
 
             const img = document.createElement('img');
             img.src = character.image;
             img.alt = character.name;
             card.appendChild(img);
 
+            const nameH3 = document.createElement('h3');
+            nameH3.textContent = character.name;
+            card.appendChild(nameH3);
+
             const idP = document.createElement('p');
-            idP.textContent = `Id: ${character.id}`;
+            idP.textContent = `ID: ${character.id}`;
             card.appendChild(idP);
 
             const speciesP = document.createElement('p');
@@ -89,85 +97,6 @@ function renderCharacters(data) {
     main.appendChild(container);
 }
 
-
-// function createCharacterCard(character) {
-
-//     const card = document.createElement('section');
-//     card.className = 'character-card';
-
-//     const nameH3 = document.createElement('h3');
-//     nameH3.textContent = character.name;
-//     card.appendChild(nameH3);
-
-//     const img = document.createElement('img');
-//     img.src = character.image;
-//     img.alt = character.name;
-//     card.appendChild(img);
-
-//     const statusP = document.createElement('p');
-//     statusP.textContent = `Status: ${character.status}`;
-//     card.appendChild(statusP);
-
-//     const speciesP = document.createElement('p');
-//     speciesP.textContent = `Species: ${character.species}`;
-//     card.appendChild(speciesP);
-
-//     return card;
-// }
-
-
-// function renderSpecies(species, characters) {
-
-//     const speciesDiv = document.createElement('div');
-
-//     const title = document.createElement('h2');
-//     title.textContent = species;
-//     speciesDiv.appendChild(title);
-
-//     const cardsContainer = document.createElement('div');
-//     cardsContainer.className = 'cards-container';
-
-//     characters.forEach(character => {
-//         const card = createCharacterCard(character);
-//         cardsContainer.appendChild(card);
-//     });
-
-//     speciesDiv.appendChild(cardsContainer);
-
-//     return speciesDiv;
-// }
-// const charactersContainer = document.createElement('div');
-// charactersContainer.id = 'characters-container';
-
-
-// const characterCard = document.createElement('section');
-
-
-// // h2
-// const title = document.createElement('h2');
-// title.textContent = character.name;
-// characterCard.appendChild(title);
-
-// // img
-// const img = document.createElement('img');
-// img.src = character.image;
-// img.alt = character.name;
-// characterCard.appendChild(img);
-
-// // ID
-// const idP = document.createElement('p');
-// idP.textContent = `ID: ${character.id}`;
-// characterCard.appendChild(idP);
-
-// // species
-// const speciesP = document.createElement('p');
-// speciesP.textContent = `Species: ${character.species}`;
-// characterCard.appendChild(speciesP);
-
-// charactersContainer.appendChild(characterCard);
-
-
-// document.body.appendChild(charactersContainer);
 
 
 
