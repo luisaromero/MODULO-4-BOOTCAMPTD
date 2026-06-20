@@ -9,6 +9,7 @@ let charactersData = null;
 
 fetchButton.addEventListener('click', () => {
     if (charactersData) {
+        renderCharacters(charactersData);
         return;
     }
 
@@ -29,6 +30,12 @@ fetchButton.addEventListener('click', () => {
 
 
 function renderCharacters(data) {
+    const existing = document.getElementById('characters-by-species');
+    if (existing) {
+        console.log('ya existe la data ...renderizando de nuevo')
+        existing.remove();
+    }
+
 
     //Alcenamos en un obj los personajes por especie , lo inicializamos vacío
 
