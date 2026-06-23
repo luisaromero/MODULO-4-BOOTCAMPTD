@@ -76,7 +76,8 @@ function renderCharacters(data) {
             card.className = 'character-card';
 
 
-
+            // Cremos elementos ya que innerhtml es MUY PELIGROSO tiene riesgos de Cross-Site Scripting 
+            // ninguna IA te dice esto ajá! 
             const img = document.createElement('img');
             img.src = character.image;
             img.alt = character.name;
