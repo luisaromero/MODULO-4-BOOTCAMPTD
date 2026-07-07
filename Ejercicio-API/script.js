@@ -1,5 +1,7 @@
 const URL = "https://rickandmortyapi.com/api/character/1,2,3,4,5,6,7,8,9,10"
 const fetchButton = document.getElementById('fetchButton');
+const showBySpecies = document.getElementById('showBySpecies');
+const getUniqueCharacter = document.getElementById('getUniqueCharacter');
 const main = document.querySelector('main');
 
 //ALMACENAMOS EN UNA VARIABLE GLOBAL PARA NO TENER QUE RECARGAR DATOS SI YA EXISTEN
@@ -103,6 +105,12 @@ function renderCharacters(data) {
     });
 
     main.appendChild(container);
+}
+
+function individualInfo() {
+    // primero tengo que limpiar el contenedor ya que puede haber existido alguna peticion de otra data antes
+    //debo agregar la card con un id 
+
 }
 
 
