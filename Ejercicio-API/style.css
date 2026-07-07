@@ -94,7 +94,7 @@ button:hover {
   background-color: var(--dark-cyan);
 }
 
-#characters-by-species {
+#show-data {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -105,11 +105,11 @@ button:hover {
 }
 
 /* Div por cada especie (sin atributos extra, solo contenedor) */
-#characters-by-species > div {
+#show-data > div {
   width: 100%;
   max-width: 1000px;
 }
-#characters-by-species > div > h2 {
+#show-data > div > h2 {
   font-family: "Schoolbell", cursive;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   color: var(--cyan);

@@ -29,50 +29,52 @@ let charactersData = null;
 //         })
 //         .catch(error => console.error('Error fetching data:', error));
 // });
-showBySpecies.addEventListener('click', () => {
-    if (charactersData) {
-        renderCharacters(charactersData);
-        return;
+showBySpecies.addEventListener('click', async () => {
+    try {
+        const data = await getData();
+        renderCharactersBySpecies(data);
+    } catch (error) {
+        console.error('Error fetching data:', error);
     }
-    else {
-        getData()
-    }
-
 });
-// showBySpecies.addEventListener('click', () => {
-//     if (charactersData) {
+// getUniqueCharacter.addEventListener('click', () => {
+//      if (charactersData) {
 //         renderCharacters(charactersData);
 //         return;
 //     }
+//     else {
+//         getData()
+//     }
+//     const character = personajesCache.find(x => x.id === id);
 
 
 // });
 
-function getData() {
-    fetch(URL)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('No se pudo conectar')
-            }
-            return response.json()
-        })
+async function getData() {
+    if (charactersData) {
+        console.log('Mostrando desde memoria local');
+        return charactersData;
+    }
 
-        .then(data => {
-            charactersData = data;
-            renderCharacters(charactersData);
-        })
-        .catch(error => console.error('Error fetching data:', error));
+    const response = await fetch(URL);
+    if (!response.ok) {
+        throw new Error('No se pudo conectar');
+    }
+
+    const data = await response.json();
+    charactersData = data;
+    console.log('Datos recibidos de la API:', data);
+    return data;
+}
+
+function clearContainer() {
+    const existing = document.getElementById('show-data');
+    if (existing) existing.remove();
 }
 
 
-function renderCharacters(data) {
-    const existing = document.getElementById('characters-by-species');
-    if (existing) {
-        console.log('ya existe la data ...renderizando de nuevo')
-        existing.remove();
-    }
-
-
+function renderCharactersBySpecies(data) {
+    clearContainer()
     //Alcenamos en un obj los personajes por especie , lo inicializamos vacío
 
     const orderBySpecies = {};
@@ -89,7 +91,7 @@ function renderCharacters(data) {
         orderBySpecies[specie].push(character);
     });
     const container = document.createElement('div');
-    container.id = 'characters-by-species';
+    container.id = 'show-data';
 
 
     Object.entries(orderBySpecies).forEach(entry => {
@@ -141,9 +143,11 @@ function renderCharacters(data) {
     main.appendChild(container);
 }
 
-function individualInfo() {
+function individualInfo(id) {
+
     // primero tengo que limpiar el contenedor ya que puede haber existido alguna peticion de otra data antes
     //debo agregar la card con un id 
+
 
 }
 
