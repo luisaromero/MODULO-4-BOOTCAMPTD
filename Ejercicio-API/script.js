@@ -9,12 +9,46 @@ let charactersData = null;
 
 
 
-fetchButton.addEventListener('click', () => {
+// showBySpecies.addEventListener('click', () => {
+//     if (charactersData) {
+//         renderCharacters(charactersData);
+//         return;
+//     }
+
+//     fetch(URL)
+//         .then(response => {
+//             if (!response.ok) {
+//                 throw new Error('No se pudo conectar')
+//             }
+//             return response.json()
+//         })
+
+//         .then(data => {
+//             charactersData = data;
+//             renderCharacters(charactersData);
+//         })
+//         .catch(error => console.error('Error fetching data:', error));
+// });
+showBySpecies.addEventListener('click', () => {
     if (charactersData) {
         renderCharacters(charactersData);
         return;
     }
+    else {
+        getData()
+    }
 
+});
+// showBySpecies.addEventListener('click', () => {
+//     if (charactersData) {
+//         renderCharacters(charactersData);
+//         return;
+//     }
+
+
+// });
+
+function getData() {
     fetch(URL)
         .then(response => {
             if (!response.ok) {
@@ -28,7 +62,7 @@ fetchButton.addEventListener('click', () => {
             renderCharacters(charactersData);
         })
         .catch(error => console.error('Error fetching data:', error));
-});
+}
 
 
 function renderCharacters(data) {

@@ -37,7 +37,12 @@ main {
   padding-top: 2rem;
   width: 100%;
 }
-
+.btnContainer {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin: 2rem 0;
+}
 #get-data-container {
   flex-direction: column;
   justify-content: center;
@@ -62,15 +67,15 @@ main {
   vertical-align: middle;
 }
 
-button {
-  padding: 1rem 1.6rem;
+.btnContainer button {
+  padding: 0.8rem 1.6rem;
   font-size: 1rem;
   font-weight: 700;
   letter-spacing: 0.03em;
   cursor: pointer;
   color: var(--white);
   background: rgba(0, 0, 0, 0.25);
-
+  width: 100%;
   backdrop-filter: blur(5px);
 
   border: 2px solid rgba(0, 225, 255, 0.25);
@@ -157,4 +162,11 @@ button:hover {
   margin: 0.25rem 0;
   font-size: 0.875rem;
   opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  .btnContainer {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+  }
 }
