@@ -55,7 +55,7 @@ main {
   font-size: clamp(2.5rem, 5vw, 6rem);
   line-height: 1;
   color: var(--dark-cyan);
-  margin: 1.25rem 0 1.5625rem;
+  margin: 3rem 1.5625rem;
   text-shadow:
     0.02em 0.02em 0.02em var(--green),
     -0.02em -0.02em 0.02em var(--green),

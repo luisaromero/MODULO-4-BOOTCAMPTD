@@ -1,5 +1,5 @@
 const URL = "https://rickandmortyapi.com/api/character/1,2,3,4,5,6,7,8,9,10"
-const fetchButton = document.getElementById('fetchButton');
+const listOfCharacters = document.getElementById('listOfCharacters');
 const showBySpecies = document.getElementById('showBySpecies');
 const getUniqueCharacter = document.getElementById('getUniqueCharacter');
 const main = document.querySelector('main');
@@ -9,26 +9,16 @@ let charactersData = null;
 
 
 
-// showBySpecies.addEventListener('click', () => {
-//     if (charactersData) {
-//         renderCharacters(charactersData);
-//         return;
-//     }
+listOfCharacters.addEventListener('click', async () => {
+    try {
+        const data = await getData();
+        renderAllCharacters(data);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+});
 
-//     fetch(URL)
-//         .then(response => {
-//             if (!response.ok) {
-//                 throw new Error('No se pudo conectar')
-//             }
-//             return response.json()
-//         })
 
-//         .then(data => {
-//             charactersData = data;
-//             renderCharacters(charactersData);
-//         })
-//         .catch(error => console.error('Error fetching data:', error));
-// });
 showBySpecies.addEventListener('click', async () => {
     try {
         const data = await getData();
@@ -65,16 +55,56 @@ async function getData() {
     return data;
 }
 
+
 function clearContainer() {
     const existing = document.getElementById('show-data');
     if (existing) existing.remove();
 }
+
+
 
 function createContainer() {
     const container = document.createElement('div');
     container.id = 'show-data';
     return container;
 }
+
+
+function renderAllCharacters(data) {
+    clearContainer();
+    const container = createContainer();
+
+    const cardsContainer = document.createElement('div');
+    cardsContainer.className = 'cards-container';
+
+    data.forEach(character => {
+        const card = document.createElement('section');
+        card.className = 'character-card';
+
+        const img = document.createElement('img');
+        img.src = character.image;
+        img.alt = character.name;
+        card.appendChild(img);
+
+        const nameH3 = document.createElement('h3');
+        nameH3.textContent = character.name;
+        card.appendChild(nameH3);
+
+        const idP = document.createElement('p');
+        idP.textContent = `ID: ${character.id}`;
+        card.appendChild(idP);
+
+        const speciesP = document.createElement('p');
+        speciesP.textContent = `Especie: ${character.species}`;
+        card.appendChild(speciesP);
+
+        cardsContainer.appendChild(card);
+    });
+
+    container.appendChild(cardsContainer);
+    main.appendChild(container);
+}
+
 
 
 function renderCharactersBySpecies(data) {
@@ -98,7 +128,7 @@ function renderCharactersBySpecies(data) {
     container.id = 'show-data';
 
 
-    Object.entries(orderBySpecies).forEach(entry => {
+    Object.entries(orderBySpecies).sort().forEach(entry => {
         const species = entry[0];
         const characters = entry[1];
 
@@ -179,9 +209,6 @@ function individualInfo(data, id) {
     container.appendChild(card);
 
     main.appendChild(container);
-
-    // primero tengo que limpiar el contenedor ya que puede haber existido alguna peticion de otra data antes
-    //debo agregar la card con un id 
 
 
 }
