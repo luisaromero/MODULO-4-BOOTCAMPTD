@@ -37,18 +37,16 @@ showBySpecies.addEventListener('click', async () => {
         console.error('Error fetching data:', error);
     }
 });
-// getUniqueCharacter.addEventListener('click', () => {
-//      if (charactersData) {
-//         renderCharacters(charactersData);
-//         return;
-//     }
-//     else {
-//         getData()
-//     }
-//     const character = personajesCache.find(x => x.id === id);
 
 
-// });
+getUniqueCharacter.addEventListener('click', async () => {
+    try {
+        const data = await getData();
+        individualInfo(data, 2);
+    } catch (error) {
+        console.error('Error fetching data:', error);
+    }
+});
 
 async function getData() {
     if (charactersData) {
@@ -70,6 +68,12 @@ async function getData() {
 function clearContainer() {
     const existing = document.getElementById('show-data');
     if (existing) existing.remove();
+}
+
+function createContainer() {
+    const container = document.createElement('div');
+    container.id = 'show-data';
+    return container;
 }
 
 
@@ -143,7 +147,38 @@ function renderCharactersBySpecies(data) {
     main.appendChild(container);
 }
 
-function individualInfo(id) {
+function individualInfo(data, id) {
+    const character = data.find(c => c.id === id);
+    if (!character) {
+        console.error('Personaje no encontrado');
+        return;
+    }
+
+    clearContainer();
+    const card = document.createElement('section');
+    card.className = 'character-card';
+    const container = createContainer();
+
+    const img = document.createElement('img');
+    img.src = character.image;
+    img.alt = character.name;
+    card.appendChild(img);
+
+    const nameH3 = document.createElement('h3');
+    nameH3.textContent = character.name;
+    card.appendChild(nameH3);
+
+    const idP = document.createElement('p');
+    idP.textContent = `ID: ${character.id}`;
+    card.appendChild(idP);
+
+    const speciesP = document.createElement('p');
+    speciesP.textContent = `Species: ${character.species}`;
+    card.appendChild(speciesP);
+
+    container.appendChild(card);
+
+    main.appendChild(container);
 
     // primero tengo que limpiar el contenedor ya que puede haber existido alguna peticion de otra data antes
     //debo agregar la card con un id 
