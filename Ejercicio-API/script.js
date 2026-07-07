@@ -32,7 +32,8 @@ showBySpecies.addEventListener('click', async () => {
 getUniqueCharacter.addEventListener('click', async () => {
     try {
         const data = await getData();
-        individualInfo(data, 2);
+        let id = 1
+        individualInfo(data, id);
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -57,7 +58,7 @@ async function getData() {
 
 
 function clearContainer() {
-    const existing = document.getElementById('show-data');
+    const existing = document.getElementById('results');
     if (existing) existing.remove();
 }
 
@@ -65,10 +66,41 @@ function clearContainer() {
 
 function createContainer() {
     const container = document.createElement('div');
-    container.id = 'show-data';
+    container.id = 'results';
     return container;
 }
 
+// Creamos elementos ya que innerhtml es ------> MUY PELIGROSO <-------- tiene riesgos de Cross-Site Scripting 
+// es decir riesgo de hackeo ----> ninguna IA lo dice ;)!
+// https://medium.com/@dfs.techblog/cross-site-scripting-xss-why-innerhtml-is-dangerous-and-what-else-to-avoid-0a11e550dda9 
+
+function createCharacterCard(character) {
+    const card = document.createElement('section');
+    card.className = 'character-card';
+
+    //  El tamaño de imagen se controla vía CSS (.character-card img), no con
+    // atributos width fijos en JS, para mantener consistencia visual entre vistas.
+    // El width no se pide en los requisitos , sólo la imagen.
+
+    const img = document.createElement('img');
+    img.src = character.image;
+    img.alt = character.name;
+    card.appendChild(img);
+
+    const nameH3 = document.createElement('h3');
+    nameH3.textContent = character.name;
+    card.appendChild(nameH3);
+
+    const idP = document.createElement('p');
+    idP.textContent = `ID: ${character.id}`;
+    card.appendChild(idP);
+
+    const speciesP = document.createElement('p');
+    speciesP.textContent = `Especie: ${character.species}`;
+    card.appendChild(speciesP);
+
+    return card;
+}
 
 function renderAllCharacters(data) {
     clearContainer();
@@ -77,28 +109,9 @@ function renderAllCharacters(data) {
     const cardsContainer = document.createElement('div');
     cardsContainer.className = 'cards-container';
 
+
     data.forEach(character => {
-        const card = document.createElement('section');
-        card.className = 'character-card';
-
-        const img = document.createElement('img');
-        img.src = character.image;
-        img.alt = character.name;
-        card.appendChild(img);
-
-        const nameH3 = document.createElement('h3');
-        nameH3.textContent = character.name;
-        card.appendChild(nameH3);
-
-        const idP = document.createElement('p');
-        idP.textContent = `ID: ${character.id}`;
-        card.appendChild(idP);
-
-        const speciesP = document.createElement('p');
-        speciesP.textContent = `Especie: ${character.species}`;
-        card.appendChild(speciesP);
-
-        cardsContainer.appendChild(card);
+        cardsContainer.appendChild(createCharacterCard(character));
     });
 
     container.appendChild(cardsContainer);
@@ -125,57 +138,35 @@ function renderCharactersBySpecies(data) {
         orderBySpecies[specie].push(character);
     });
     const container = document.createElement('div');
-    container.id = 'show-data';
+    container.id = 'results';
 
 
-    Object.entries(orderBySpecies).sort().forEach(entry => {
-        const species = entry[0];
-        const characters = entry[1];
-
+    Object.keys(orderBySpecies).sort().forEach(species => {
+        const characters = orderBySpecies[species];
         const speciesDiv = document.createElement('div');
 
-        // Título de la especie
         const title = document.createElement('h2');
         title.textContent = species;
         speciesDiv.appendChild(title);
 
-        // Contenedor de cards de esta especie
-        const cardsContainer = document.createElement('div');
-        cardsContainer.className = 'cards-container';
-
+        const list = document.createElement('ul');
         characters.forEach(character => {
-            const card = document.createElement('section');
-            card.className = 'character-card';
-
-
-            // Cremos elementos ya que innerhtml es MUY PELIGROSO tiene riesgos de Cross-Site Scripting 
-            // ninguna IA te dice esto ajá! 
-            const img = document.createElement('img');
-            img.src = character.image;
-            img.alt = character.name;
-            card.appendChild(img);
-
-            const nameH3 = document.createElement('h3');
-            nameH3.textContent = character.name;
-            card.appendChild(nameH3);
-
-            const idP = document.createElement('p');
-            idP.textContent = `ID: ${character.id}`;
-            card.appendChild(idP);
-
-            const speciesP = document.createElement('p');
-            speciesP.textContent = `Species: ${character.species}`;
-            card.appendChild(speciesP);
-
-            cardsContainer.appendChild(card);
+            const li = document.createElement('li');
+            li.textContent = `${character.name} (ID: ${character.id})`;
+            list.appendChild(li);
         });
+        speciesDiv.appendChild(list);
 
-        speciesDiv.appendChild(cardsContainer);
         container.appendChild(speciesDiv);
     });
 
     main.appendChild(container);
 }
+
+
+//  La ficha individual (individualInfo) muestra un personaje fijo (id: 1) 
+//  *   en vez de selección dinámica, ya que el enunciado no especifica el método
+//  *   de selección ("algún personaje").
 
 function individualInfo(data, id) {
     const character = data.find(c => c.id === id);
@@ -209,7 +200,6 @@ function individualInfo(data, id) {
     container.appendChild(card);
 
     main.appendChild(container);
-
 
 }
 
