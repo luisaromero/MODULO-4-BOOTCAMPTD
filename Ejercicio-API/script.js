@@ -165,8 +165,8 @@ function renderCharactersBySpecies(data) {
 
 
 //  La ficha individual (individualInfo) muestra un personaje fijo (id: 1) 
-//  *   en vez de selección dinámica, ya que el enunciado no especifica el método
-//  *   de selección ("algún personaje").
+//    en vez de selección dinámica, ya que el enunciado no especifica el método
+//    de selección ("algún personaje").
 
 function individualInfo(data, id) {
     const character = data.find(c => c.id === id);
